@@ -29,15 +29,15 @@ def _get_prediction(data):
 
 
 def _drop_unrelative_keys(data):
-    return data.drop(["Date", "Adj Close"], axis=1)
+    return data.drop(["Date", "Adj Close", "Prediction", "Close"], axis=1)
 
 
 def _split_data(data, test_size=0.25):
     """Divide data to get training set and testing set.
     Return X_train,X_test,y_train,y_test"""
-    X = _drop_unrelative_keys(data)
     data = _get_prediction(data)
     y = data.Prediction
+    X = _drop_unrelative_keys(data)
     return model_selection.train_test_split(X, y, test_size=test_size, random_state=1234)
 
 

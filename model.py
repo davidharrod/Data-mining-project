@@ -14,6 +14,15 @@ def _calculate_auc(model, X, y):
     return fpr, tpr, roc_auc
 
 
+def _plot_confusion_matrix(model, X, y):
+    y_pred = predict(model, X)
+    confusion_matrix = metrics.confusion_matrix(y, y_pred)
+    display = metrics.ConfusionMatrixDisplay(confusion_matrix)
+    display.plot(include_values=True)
+    plt.plot()
+    plt.show()
+
+
 def train(X, y):
     model = ensemble.GradientBoostingClassifier(random_state=10)
     model.fit(X, y)
@@ -29,6 +38,7 @@ def test(model, X, y):
     print("模型的准确率为：\n", metrics.accuracy_score(y, y_pred))
     print("模型的评估报告：\n", metrics.classification_report(y, y_pred))
     fpr, tpr, roc_auc = _calculate_auc(model, X, y)
+    _plot_confusion_matrix(model, X, y)
     plot_roc(fpr, tpr, roc_auc)
     rank_features(model, X)
     return None
